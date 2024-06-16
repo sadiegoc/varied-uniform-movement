@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="mruv.css">
+    <title>Movimento Unidimensional - MRU</title>
+</head>
+<body>
+    <div class="container">
+        <div mru-app>
+            <div id="view">
+                <div class="car c-1">
+                    <img src="./imgs/car-1.png" alt="Carro 1" id="car-1">
+                </div>
+                <div class="car c-2">
+                    <img src="./imgs/car-2.png" alt="Carro 2" id="car-2">
+                </div>
+                <div class="car c-3">
+                    <img src="./imgs/car-3.png" alt="Carro 3" id="car-3">
+                </div>
+            </div>
+    
+            <div id="settings">
+                <div id="control"></div>
+                <button id="btn-run" onclick="run()"><em></em></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const n_cars = document.querySelectorAll('.car');
+        const control = document.getElementById('control');
+
+        function newElement (tagName, className = '', id = '') {
+            const element = document.createElement(tagName);
+            element.className = className;
+            element.id = id;
+            return element;
+        }
+
+        function createSectionIn (p, id) {
+            const section = newElement('div', 'section');
+            const legend = newElement('span', `${p}-legend`);
+            const input = newElement('input', `${p}ctrl`, `${p}ctrl-${id}`)
+            const btn_add = newElement('button', 'add');
+            const btn_sub = newElement('button', 'sub');
+
+            btn_sub.onclick = function sub () {
+                const number_ctrl = document.getElementById(`${p}ctrl-${id}`);
+                if (number_ctrl.value > 0) number_ctrl.value--;
+            }
+
+            btn_add.onclick = function add () {
+                const number_ctrl = document.getElementById(`${p}ctrl-${id}`);
+                if (number_ctrl.value < 100) number_ctrl.value++;
+            }
+
+            btn_sub.innerHTML = '-';
+            btn_add.innerHTML = '+';
+            legend.innerHTML = `${p} = `;
+
+            const unit_measure = newElement('span', 'unit-measurement');
+            unit_measure.innerHTML = p == 'v' ? 'm/s' : 'm/s<sup>2</sup>';
+
+            section.appendChild(legend);
+            section.appendChild(btn_sub);
+            section.appendChild(input);
+            section.appendChild(btn_add);
+            section.appendChild(unit_measure);
+
+            return section;
+        }
+
+        function createSectionOut (p, id) {
+            const section = newElement('div', 'section');
+            const legend = (p == 's') ? newElement('span', 's-legend', `space-${id}`) : newElement('span', 't-legend', `time-${id}`);
+            legend.innerHTML = `${p} = `;
+            section.appendChild(legend);
+
+            return section;
+        }
+
+        n_cars.forEach((car, i) => {
+            const id = i + 1
+            const ctrl_car = newElement('div', 'ctrl-car', `ctrl-car-${id}`);
+
+            // title settings
+            const car_name = newElement('div', 'car-name');
+            const title = newElement('h1', 'title');
+            title.innerHTML = `${id}`;
+            car_name.appendChild(title)
+
+            // separate settings
+            const column_in = newElement('div', 'in');
+            const column_out = newElement('div', 'out');
+
+            // settings section
+            const v_section = createSectionIn('v', id);
+            const a_section = createSectionIn('a', id);
+            const s_section = createSectionOut('s', id);
+            const t_section = createSectionOut('t', id);
+
+            column_in.appendChild(v_section);
+            column_in.appendChild(a_section);
+            column_out.appendChild(s_section);
+            column_out.appendChild(t_section);
+
+            ctrl_car.appendChild(car_name);
+            ctrl_car.appendChild(column_in);
+            ctrl_car.appendChild(column_out);
+
+            control.appendChild(ctrl_car);
+        })
+    </script>
+    <script src="mruv.js"></script>
+</body>
+</html>
