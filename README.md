@@ -4,4 +4,4 @@
 <p align="justify">Configurei para que a distância da estrada permaneça constante, não importando a largura da tela, ou seja, sempre 500m.</p>
 
 <h2>Tecnologias</h2>
-<p>Foi desenvolvido com HTML, CSS e JavaScript puros</p>
+<p>Foi desenvolvido com HTML, CSS e JavaScript puros.</p>
